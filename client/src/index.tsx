@@ -1,28 +1,39 @@
 import React from "react";
 import { render } from "react-dom";
-import "./index.css";
-// import reportWebVitals from "./reportWebVitals";
-import { Listings, NavBar } from "./sections";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { Listings, Home, Host, Listing, NotFound, User } from "./sections";
+import * as serviceWorker from "./serviceWorker";
+import "./styles/index.css";
 
 const client = new ApolloClient({
   uri: "/api",
 });
 
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/host" component={Host}/>
+        <Route exact path="/listing/:id" component={Listing}/>
+        <Route exact path="/listings/:location?" component={Listings}/>
+        <Route exact path="/user/:id" component={User}/>
+        <Route component={NotFound}/>
+      </Switch>
+    </Router>
+  );
+};
+
 render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <NavBar />
-      <div className="container">
-        <Listings title="Tinyhouse title" />
-      </div>
-    </ApolloProvider>
-  </React.StrictMode>,
+  <ApolloProvider client={client}>
+    <App/>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals(console.log);
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
