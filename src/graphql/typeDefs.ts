@@ -10,8 +10,9 @@ export const typeDefs = gql`
     token: String
     avatar: String
     hasWallet: Boolean
-    didRequet: Boolean!
+    didRequest: Boolean!
   }
+
   type Query {
     authUrl: String!
   }
