@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import {Database, Listing, User} from "../lib/types";
+import { Database, Listing, User } from "../lib/types";
 
 const user = process.env.DB_USER;
 const userPassword = process.env.DB_USER_PASSWOR;

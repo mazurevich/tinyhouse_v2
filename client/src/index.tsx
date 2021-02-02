@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 import ApolloClient from "apollo-boost";
+import { Layout, Affix } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import {
+  AppHeader,
   Listings,
   Home,
   Host,
@@ -13,7 +15,6 @@ import {
   Login,
 } from "./sections";
 import * as serviceWorker from "./serviceWorker";
-import { Layout } from "antd";
 import "./styles/index.css";
 import { Viewer } from "./lib/types";
 
@@ -30,18 +31,25 @@ const initialViewer: Viewer = {
 };
 
 const App = () => {
-  const [viewer, setViewer] = useState(initialViewer)
-  console.log(viewer)
+  const [viewer, setViewer] = useState(initialViewer);
+  console.log(viewer);
   return (
     <Router>
       <Layout id="app">
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer} setViewer={setViewer}/>
+        </Affix>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/host" component={Host} />
           <Route exact path="/listing/:id" component={Listing} />
           <Route exact path="/listings/:location?" component={Listings} />
           <Route exact path="/user/:id" component={User} />
-          <Route exact path="/login" render={props => <Login {...props} setViewer={setViewer} />} />
+          <Route
+            exact
+            path="/login"
+            render={(props) => <Login {...props} setViewer={setViewer} />}
+          />
           <Route component={NotFound} />
         </Switch>
       </Layout>
