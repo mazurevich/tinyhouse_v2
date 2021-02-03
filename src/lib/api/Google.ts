@@ -1,17 +1,17 @@
-import { google } from "googleapis";
+import { google } from 'googleapis';
 
 const auth = new google.auth.OAuth2(
   process.env.G_CLIENT_ID,
   process.env.G_CLIENT_SECRET,
-  `${process.env.PUBLIC_URL}/login`
+  `${process.env.PUBLIC_URL}/login`,
 );
 
 export const Google = {
   authUrl: auth.generateAuthUrl({
-    access_type: "online",
+    access_type: 'online',
     scope: [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile",
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
     ],
   }),
   logIn: async (code: string) => {
@@ -19,11 +19,11 @@ export const Google = {
 
     auth.setCredentials(tokens);
 
-    const { data } = await google.people({ version: "v1", auth }).people.get({
-      resourceName: "people/me",
-      personFields: "emailAddresses,names,photos",
+    const { data } = await google.people({ version: 'v1', auth }).people.get({
+      resourceName: 'people/me',
+      personFields: 'emailAddresses,names,photos',
     });
 
-    return { user: data  };
+    return { user: data };
   },
 };

@@ -1,18 +1,18 @@
-import crypto from "crypto";
-import { IResolvers } from "apollo-server-express";
-import { Database, User, Viewer } from "../../../lib/types";
-import { Google } from "../../../lib/api";
-import { LogInArgs } from "./types";
+import crypto from 'crypto';
+import { IResolvers } from 'apollo-server-express';
+import { Database, User, Viewer } from '../../../lib/types';
+import { Google } from '../../../lib/api';
+import { LogInArgs } from './types';
 
 const logInViaGoogle = async (
   code: string,
   token: string,
-  db: Database
+  db: Database,
 ): Promise<User | undefined> => {
   const { user } = await Google.logIn(code);
 
   if (!user) {
-    throw new Error("Google login error");
+    throw new Error('Google login error');
   }
 
   // names/photos/ email
@@ -22,7 +22,7 @@ const logInViaGoogle = async (
   const userEmail = (user?.emailAddresses ?? [])[0]?.value || null;
 
   if (!userId || !userName || !userAvatar || !userEmail) {
-    throw new Error("Google login error");
+    throw new Error('Google login error');
   }
 
   const updateRes = await db.users.findOneAndUpdate(
@@ -35,7 +35,7 @@ const logInViaGoogle = async (
         token,
       },
     },
-    { returnOriginal: false }
+    { returnOriginal: false },
   );
 
   let viewer = updateRes.value;
@@ -50,7 +50,7 @@ const logInViaGoogle = async (
       bookings: [],
       listings: [],
     });
-    viewer = insertResult.ops[0];
+    [viewer] = insertResult.ops;
   }
 
   return viewer;
@@ -70,7 +70,7 @@ export const viewerResolvers: IResolvers = {
     logIn: async (
       _root: undefined,
       { input }: LogInArgs,
-      { db }: { db: Database }
+      { db }: { db: Database },
     ): Promise<Viewer> => {
       try {
         const code = input?.code ?? null;
@@ -90,23 +90,19 @@ export const viewerResolvers: IResolvers = {
           didRequest: true,
         };
       } catch (error) {
-        throw new Error(`Failed to log in: ${error}`)
+        throw new Error(`Failed to log in: ${error}`);
       }
     },
     logOut: () => {
       try {
-        return { didRequest: true }
+        return { didRequest: true };
       } catch (error) {
-        throw new Error(`Error on log out: ${error}`)
+        throw new Error(`Error on log out: ${error}`);
       }
     },
   },
   Viewer: {
-    id: (viewer: Viewer) => {
-      return viewer._id;
-    },
-    hasWallet: (viewer: Viewer): boolean | undefined => {
-      return viewer.walletId ? true : undefined;
-    },
+    id: (viewer: Viewer) => viewer._id,
+    hasWallet: (viewer: Viewer): boolean | undefined => (viewer.walletId ? true : undefined),
   },
 };

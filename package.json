@@ -4,11 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint:write": "eslint --debug src/ --fix",
     "start": "nodemon ./src/index.ts",
     "build": "tsc -p ./",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "ts-node temp/seed.ts",
     "clear": "ts-node temp/clear.ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(ts|tsx|js|jsx)": [
+      "npm run lint:write",
+      "git add"
+    ]
   },
   "nodemonConfig": {
     "ignore": [
@@ -18,13 +30,51 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "eslintIgnore": [
+    "node_modules",
+    "/.git",
+    "/.idea"
+  ],
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+    },
+    "extends": [
+      "airbnb-typescript",
+      "eslint-config-prettier",
+      "prettier/react"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "quotes": [
+        2,
+        "single"
+      ],
+      "@typescript-eslint/quotes": [
+        2,
+        "single"
+      ],
+      "import/prefer-default-export": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "no-underscore-dangle": "off",
+      "no-restricted-syntax": "off",
+      "no-await-in-loop": "off"
+    }
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true
+  },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.9",
     "@types/graphql": "^14.5.0",
     "@types/mongodb": "^3.6.1",
     "@types/node": "^14.14.10",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "apollo-server-express": "^2.19.0",
     "body-parser": "^1.19.0",
@@ -41,6 +91,15 @@
   "devDependencies": {
     "@types/body-parser": "^1.19.0",
     "@types/lodash": "^4.14.165",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
     "ts-node": "^9.1.0",
     "typescript": "^4.1.2"
   }

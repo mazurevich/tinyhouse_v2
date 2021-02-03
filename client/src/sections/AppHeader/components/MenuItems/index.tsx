@@ -6,7 +6,10 @@ import { HomeOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { LOG_OUT } from "../../../../lib/graphql/mutations";
 import { LogOut as LogOutData } from "../../../../lib/graphql/mutations/LogOut/__generated__/LogOut";
 import { Viewer } from "../../../../lib/types";
-import {displayErrorMessage, displaySuccessNotification} from "../../../../lib/utils";
+import {
+  displayErrorMessage,
+  displaySuccessNotification,
+} from "../../../../lib/utils";
 
 const { Item, SubMenu } = Menu;
 
@@ -24,8 +27,8 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
       }
     },
     onError: () => {
-      displayErrorMessage("Error while loggin out. Try again later.")
-    }
+      displayErrorMessage("Error while loggin out. Try again later.");
+    },
   });
 
   const handleLogOut = () => {
