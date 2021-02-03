@@ -1,7 +1,7 @@
-#Tiny house booking app
-###This is a result of course for learning GraphQL, TypeScript and MongoDB
+# Tiny house booking app
+### This is a result of course for learning GraphQL, TypeScript and MongoDB
 
-##Installation
+## Installation
 1) run `npm install` in root and `./client` folders
 2) create project in Google Developers Console
 3) create mongo database e.g. in Mongo Atlas
