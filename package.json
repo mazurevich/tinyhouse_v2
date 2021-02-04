@@ -70,6 +70,7 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@types/cookie-parser": "^1.4.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.9",
     "@types/graphql": "^14.5.0",
@@ -78,6 +79,7 @@
     "@typescript-eslint/parser": "^4.9.0",
     "apollo-server-express": "^2.19.0",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "express": "^4.17.1",

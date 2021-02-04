@@ -1,23 +1,23 @@
-import React, { useEffect, useRef } from "react";
-import { Redirect } from "react-router-dom";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import { Layout, Typography, Spin, Card } from "antd";
-import { ErrorBanner } from "../../lib/components";
-import { Viewer } from "../../lib/types";
-import { LOG_IN } from "../../lib/graphql/mutations";
+import React, { useEffect, useRef } from 'react';
+import { Redirect } from 'react-router-dom';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import { Layout, Typography, Spin, Card } from 'antd';
+import { ErrorBanner } from '../../lib/components';
+import { Viewer } from '../../lib/types';
+import { LOG_IN } from '../../lib/graphql/mutations';
 import {
   LogIn as LoginInData,
   LogInVariables,
-} from "../../lib/graphql/mutations/LogIn/__generated__/LogIn";
-import { AUTH_URL } from "../../lib/graphql/queries";
-import { AuthUrl as AuthUrlData } from "../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl";
+} from '../../lib/graphql/mutations/LogIn/__generated__/LogIn';
+import { AUTH_URL } from '../../lib/graphql/queries';
+import { AuthUrl as AuthUrlData } from '../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl';
 import {
   displayErrorMessage,
   displaySuccessNotification,
-} from "../../lib/utils";
+} from '../../lib/utils';
 
 // resources
-import googleLogo from "./assets/google_logo.jpg";
+import googleLogo from './assets/google_logo.jpg';
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -33,8 +33,9 @@ export const Login = ({ setViewer }: Props) => {
     { data: logInData, loading: logInLoading, error: logInError },
   ] = useMutation<LoginInData, LogInVariables>(LOG_IN, {
     onCompleted: (data) => {
-      if (data && data.logIn) {
+      if (data && data.logIn && data.logIn.token) {
         setViewer(data.logIn);
+        sessionStorage.setItem('token', data.logIn.token);
         displaySuccessNotification("You've successfully logged in!");
       }
     },
@@ -43,7 +44,7 @@ export const Login = ({ setViewer }: Props) => {
   const logInRef = useRef(logIn);
 
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get("code");
+    const code = new URL(window.location.href).searchParams.get('code');
     if (code) {
       logInRef.current({
         variables: {
@@ -61,7 +62,7 @@ export const Login = ({ setViewer }: Props) => {
       window.location.href = data.authUrl;
     } catch (error) {
       displayErrorMessage(
-        "Sorry! We weren't able to log you in. Please try again later."
+        "Sorry! We weren't able to log you in. Please try again later.",
       );
       console.log(`Failed`);
     }
