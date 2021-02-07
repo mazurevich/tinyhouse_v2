@@ -2,6 +2,13 @@
   "name": "tinyhouse_client",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "node scripts/start.js",
+    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api",
+    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=./src/**/*.ts --globalTypesFile=./src/lib/graphql/glopalTypes.ts --target=typescript",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.4.0",
     "@babel/core": "7.12.3",
@@ -80,13 +87,6 @@
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "5.1.4"
-  },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api",
-    "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.ts --globalTypesFile=./src/lib/graphql/glopalTypes.ts --target=typescript",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
   },
   "proxy": "http://localhost:9000",
   "eslintConfig": {
