@@ -40,10 +40,11 @@ export interface Listing {
   country: string;
   admin: string;
   city: string;
-  bookings: ObjectId[];
+  bookings?: ObjectId[];
   bookingsIndex: BookingIndex;
   price: number;
   numOfGuests: number;
+  authorized?: boolean;
 }
 
 export interface User {
@@ -62,7 +63,7 @@ export interface User {
 export interface Booking {
   _id: ObjectId;
   listing: ObjectId;
-  tenat: string;
+  tenant: string;
   checkIn: string;
   checkOut: string;
 }

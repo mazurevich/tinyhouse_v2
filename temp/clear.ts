@@ -19,7 +19,7 @@ const clear = async () => {
       await db.users.drop();
     }
   } catch (e) {
-    throw new Error('Failed to delete data.');
+    throw new Error(`Failed to delete data.${  e.message}`);
   }
 };
 

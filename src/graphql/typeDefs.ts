@@ -8,7 +8,7 @@ export const typeDefs = gql`
   type Booking {
     id: ID!
     listing: Listing!
-    tenat: User!
+    tenant: User!
     checkIn: String!
     checkOut: String!
   }
@@ -25,9 +25,10 @@ export const typeDefs = gql`
     image: String!
     host: User!
     type: ListingType!
+    city: String!
     address: String!
     country: String!
-    bookings(limit: Int!, page: Int!): Bookings!
+    bookings(limit: Int!, page: Int!): Bookings
     bookingsIndex: String!
     price: Int!
     numOfGuests: Int!
@@ -65,6 +66,7 @@ export const typeDefs = gql`
   type Query {
     authUrl: String!
     user(id: ID): User!
+    listing(id: ID): Listing!
   }
 
   type Mutation {

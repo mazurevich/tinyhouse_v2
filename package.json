@@ -50,14 +50,6 @@
       "project": "./tsconfig.json"
     },
     "rules": {
-      "quotes": [
-        2,
-        "single"
-      ],
-      "@typescript-eslint/quotes": [
-        2,
-        "single"
-      ],
       "import/prefer-default-export": "off",
       "@typescript-eslint/naming-convention": "off",
       "no-underscore-dangle": "off",
@@ -67,7 +59,8 @@
   },
   "prettier": {
     "trailingComma": "all",
-    "singleQuote": true
+    "singleQuote": true,
+    "jsxSingleQuote": true
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.2",
