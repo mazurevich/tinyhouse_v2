@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-apollo';
 import { LISTING } from '../../lib/graphql/queries';
+import { Moment } from 'moment';
 import {
   ListingVariables,
   Listing as ListingData,
@@ -8,7 +9,11 @@ import {
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row, Layout } from 'antd';
 import { PageSkeleton, ErrorBanner } from '../../lib/components';
-import { ListingDetails, ListingBookings } from './components';
+import {
+  ListingDetails,
+  ListingBookings,
+  ListingCreateBooking,
+} from './components';
 
 interface Props {}
 
@@ -24,6 +29,10 @@ export const Listing = ({
   match,
 }: Props & RouteComponentProps<MatchParams>) => {
   const [bookingsPage, setBookingsPage] = useState(1);
+
+  const [checkInDate, setCheckInDate] = useState<Moment | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
+
   const { loading, data, error } = useQuery<ListingData, ListingVariables>(
     LISTING,
     {
@@ -54,8 +63,19 @@ export const Listing = ({
 
   const listing = data?.listing || null;
   const listingBookings = listing?.bookings || null;
+  const listingCreateBooking = listing ? (
+    <ListingCreateBooking
+      price={listing.price}
+      checkInDate={checkInDate}
+      checkOutDate={checkOutDate}
+      setCheckInDate={setCheckInDate}
+      setCheckOutDate={setCheckOutDate}
+    />
+  ) : null;
 
-  const listingDetailsElement = listing ? <ListingDetails listing={listing} /> : null;
+  const listingDetailsElement = listing ? (
+    <ListingDetails listing={listing} />
+  ) : null;
   const listingBookingsElement = listingBookings ? (
     <ListingBookings
       listingBookings={listingBookings}
@@ -70,6 +90,9 @@ export const Listing = ({
         <Col xs={24} lg={14}>
           {listingDetailsElement}
           {listingBookingsElement}
+        </Col>
+        <Col xs={24} lg={8}>
+          {listingCreateBooking}
         </Col>
       </Row>
     </Content>
