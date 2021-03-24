@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ListingType } from '../../../glopalTypes';
+import { ListingType } from "./../../../glopalTypes";
 
 // ====================================================
 // GraphQL query operation: Listing
